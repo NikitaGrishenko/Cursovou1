@@ -1,0 +1,94 @@
+﻿<Page x:Class="Cursovou.MainPage.barberi"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Cursovou.MainPage"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="barberi">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="22*"/>
+            <RowDefinition Height="3*"/>
+        </Grid.RowDefinitions>
+        <DataGrid x:Name="DtGridBarber" AutoGenerateColumns="False" IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="id" Binding="{Binding IDBarber}" Width="30*" />
+                <DataGridTextColumn Header="Имя" Binding="{Binding NameBarber}" Width="30*" />
+                <DataGridTextColumn Header="Должность" Binding="{Binding DoljostBarbera}" Width="30*" />
+                <DataGridTextColumn Header="Адресс" Binding="{Binding AdressBarbera}" Width="30*" />
+                <DataGridTextColumn Header="Записи" Binding="{Binding Zapisi}" Width="30*" />
+                <DataGridTemplateColumn Width="auto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button  Content="Редактировать" Name="BtnEdit" Click="BtnEdit_Click"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button x:Name="btnDel"  
+                 BorderThickness="0"
+                 Content="Удалить"
+                 Foreground="White"
+                 FontSize="12"
+                 FontFamily="Montserrat"
+                 Cursor="Hand"
+                 Click="btnDel_Click" >
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Background" Value="#384B52"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#28AEED"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Width="150" Height="40"
+                 CornerRadius="20"
+                 Background="{TemplateBinding Background}">
+                            <ContentPresenter VerticalAlignment="Center"
+                        HorizontalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            
+            <Button x:Name="btnAdd"  
+                 BorderThickness="0"
+                 Content="Добавить"
+                 Foreground="White"
+                 FontSize="12"
+                 FontFamily="Montserrat"
+                 Cursor="Hand"
+                 Click="btnAdd_Click">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Background" Value="#384B52"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#28AEED"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Width="150" Height="40"
+                                 CornerRadius="20"
+                                 Background="{TemplateBinding Background}">
+                            <ContentPresenter VerticalAlignment="Center"
+                                 HorizontalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+        </StackPanel>
+    </Grid>
+</Page>

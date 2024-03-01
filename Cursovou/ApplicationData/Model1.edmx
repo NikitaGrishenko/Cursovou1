@@ -1,0 +1,335 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище BarberShopModel" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Barber">
+          <Key>
+            <PropertyRef Name="IDBarber" />
+          </Key>
+          <Property Name="IDBarber" Type="int" Nullable="false" />
+          <Property Name="NameBarber" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="DoljnostBarbera" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="AdressBarbershopa" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Klient">
+          <Key>
+            <PropertyRef Name="IDKlient" />
+          </Key>
+          <Property Name="IDKlient" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Familia" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Login" Type="nvarchar" MaxLength="50" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Market">
+          <Key>
+            <PropertyRef Name="IDMarket" />
+          </Key>
+          <Property Name="IDMarket" Type="int" Nullable="false" />
+          <Property Name="NazvanieTovara" Type="nvarchar" MaxLength="50" />
+          <Property Name="OpisanieTovara" Type="nvarchar" MaxLength="50" />
+          <Property Name="StoimostTovara" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="ServisePage">
+          <Key>
+            <PropertyRef Name="IDServise" />
+          </Key>
+          <Property Name="IDServise" Type="int" Nullable="false" />
+          <Property Name="NazvanieYslygi" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="StoimostYslygi" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Zapisi">
+          <Key>
+            <PropertyRef Name="IDZapisi" />
+          </Key>
+          <Property Name="IDZapisi" Type="int" Nullable="false" />
+          <Property Name="NazvanieYslygi" Type="int" Nullable="false" />
+          <Property Name="StoimostYslygi" Type="int" Nullable="false" />
+          <Property Name="DataZapisi" Type="date" Nullable="false" />
+          <Property Name="IDMarket" Type="int" />
+        </EntityType>
+        <Association Name="FK_Market_ServisePage">
+          <End Role="ServisePage" Type="Self.ServisePage" Multiplicity="1" />
+          <End Role="Market" Type="Self.Market" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="ServisePage">
+              <PropertyRef Name="IDServise" />
+            </Principal>
+            <Dependent Role="Market">
+              <PropertyRef Name="IDMarket" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ServisePage_Klient">
+          <End Role="Klient" Type="Self.Klient" Multiplicity="1" />
+          <End Role="ServisePage" Type="Self.ServisePage" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Klient">
+              <PropertyRef Name="IDKlient" />
+            </Principal>
+            <Dependent Role="ServisePage">
+              <PropertyRef Name="IDServise" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Zapisi_Barber">
+          <End Role="Barber" Type="Self.Barber" Multiplicity="1" />
+          <End Role="Zapisi" Type="Self.Zapisi" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Barber">
+              <PropertyRef Name="IDBarber" />
+            </Principal>
+            <Dependent Role="Zapisi">
+              <PropertyRef Name="IDZapisi" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Zapisi_Market">
+          <End Role="Market" Type="Self.Market" Multiplicity="0..1" />
+          <End Role="Zapisi" Type="Self.Zapisi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Market">
+              <PropertyRef Name="IDMarket" />
+            </Principal>
+            <Dependent Role="Zapisi">
+              <PropertyRef Name="IDMarket" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище BarberShopModelContainer">
+          <EntitySet Name="Barber" EntityType="Self.Barber" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Klient" EntityType="Self.Klient" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Market" EntityType="Self.Market" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ServisePage" EntityType="Self.ServisePage" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Zapisi" EntityType="Self.Zapisi" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Market_ServisePage" Association="Self.FK_Market_ServisePage">
+            <End Role="ServisePage" EntitySet="ServisePage" />
+            <End Role="Market" EntitySet="Market" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ServisePage_Klient" Association="Self.FK_ServisePage_Klient">
+            <End Role="Klient" EntitySet="Klient" />
+            <End Role="ServisePage" EntitySet="ServisePage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Zapisi_Barber" Association="Self.FK_Zapisi_Barber">
+            <End Role="Barber" EntitySet="Barber" />
+            <End Role="Zapisi" EntitySet="Zapisi" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Zapisi_Market" Association="Self.FK_Zapisi_Market">
+            <End Role="Market" EntitySet="Market" />
+            <End Role="Zapisi" EntitySet="Zapisi" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BarberShopModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Barber">
+          <Key>
+            <PropertyRef Name="IDBarber" />
+          </Key>
+          <Property Name="IDBarber" Type="Int32" Nullable="false" />
+          <Property Name="NameBarber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DoljnostBarbera" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AdressBarbershopa" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Zapisi" Relationship="Self.FK_Zapisi_Barber" FromRole="Barber" ToRole="Zapisi" />
+        </EntityType>
+        <EntityType Name="Klient">
+          <Key>
+            <PropertyRef Name="IDKlient" />
+          </Key>
+          <Property Name="IDKlient" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Familia" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Login" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ServisePage" Relationship="Self.FK_ServisePage_Klient" FromRole="Klient" ToRole="ServisePage" />
+        </EntityType>
+        <EntityType Name="Market">
+          <Key>
+            <PropertyRef Name="IDMarket" />
+          </Key>
+          <Property Name="IDMarket" Type="Int32" Nullable="false" />
+          <Property Name="NazvanieTovara" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="OpisanieTovara" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="StoimostTovara" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ServisePage" Relationship="Self.FK_Market_ServisePage" FromRole="Market" ToRole="ServisePage" />
+          <NavigationProperty Name="Zapisi" Relationship="Self.FK_Zapisi_Market" FromRole="Market" ToRole="Zapisi" />
+        </EntityType>
+        <EntityType Name="ServisePage">
+          <Key>
+            <PropertyRef Name="IDServise" />
+          </Key>
+          <Property Name="IDServise" Type="Int32" Nullable="false" />
+          <Property Name="NazvanieYslygi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="StoimostYslygi" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Klient" Relationship="Self.FK_ServisePage_Klient" FromRole="ServisePage" ToRole="Klient" />
+          <NavigationProperty Name="Market" Relationship="Self.FK_Market_ServisePage" FromRole="ServisePage" ToRole="Market" />
+        </EntityType>
+        <EntityType Name="Zapisi">
+          <Key>
+            <PropertyRef Name="IDZapisi" />
+          </Key>
+          <Property Name="IDZapisi" Type="Int32" Nullable="false" />
+          <Property Name="NazvanieYslygi" Type="Int32" Nullable="false" />
+          <Property Name="StoimostYslygi" Type="Int32" Nullable="false" />
+          <Property Name="DataZapisi" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="IDMarket" Type="Int32" />
+          <NavigationProperty Name="Barber" Relationship="Self.FK_Zapisi_Barber" FromRole="Zapisi" ToRole="Barber" />
+          <NavigationProperty Name="Market" Relationship="Self.FK_Zapisi_Market" FromRole="Zapisi" ToRole="Market" />
+        </EntityType>
+        <Association Name="FK_Zapisi_Barber">
+          <End Role="Barber" Type="Self.Barber" Multiplicity="1" />
+          <End Role="Zapisi" Type="Self.Zapisi" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Barber">
+              <PropertyRef Name="IDBarber" />
+            </Principal>
+            <Dependent Role="Zapisi">
+              <PropertyRef Name="IDZapisi" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ServisePage_Klient">
+          <End Role="Klient" Type="Self.Klient" Multiplicity="1" />
+          <End Role="ServisePage" Type="Self.ServisePage" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Klient">
+              <PropertyRef Name="IDKlient" />
+            </Principal>
+            <Dependent Role="ServisePage">
+              <PropertyRef Name="IDServise" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Market_ServisePage">
+          <End Role="ServisePage" Type="Self.ServisePage" Multiplicity="1" />
+          <End Role="Market" Type="Self.Market" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="ServisePage">
+              <PropertyRef Name="IDServise" />
+            </Principal>
+            <Dependent Role="Market">
+              <PropertyRef Name="IDMarket" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Zapisi_Market">
+          <End Role="Market" Type="Self.Market" Multiplicity="0..1" />
+          <End Role="Zapisi" Type="Self.Zapisi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Market">
+              <PropertyRef Name="IDMarket" />
+            </Principal>
+            <Dependent Role="Zapisi">
+              <PropertyRef Name="IDMarket" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BarberShopEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Barber" EntityType="Self.Barber" />
+          <EntitySet Name="Klient" EntityType="Self.Klient" />
+          <EntitySet Name="Market" EntityType="Self.Market" />
+          <EntitySet Name="ServisePage" EntityType="Self.ServisePage" />
+          <EntitySet Name="Zapisi" EntityType="Self.Zapisi" />
+          <AssociationSet Name="FK_Zapisi_Barber" Association="Self.FK_Zapisi_Barber">
+            <End Role="Barber" EntitySet="Barber" />
+            <End Role="Zapisi" EntitySet="Zapisi" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ServisePage_Klient" Association="Self.FK_ServisePage_Klient">
+            <End Role="Klient" EntitySet="Klient" />
+            <End Role="ServisePage" EntitySet="ServisePage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Market_ServisePage" Association="Self.FK_Market_ServisePage">
+            <End Role="ServisePage" EntitySet="ServisePage" />
+            <End Role="Market" EntitySet="Market" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Zapisi_Market" Association="Self.FK_Zapisi_Market">
+            <End Role="Market" EntitySet="Market" />
+            <End Role="Zapisi" EntitySet="Zapisi" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище BarberShopModelContainer" CdmEntityContainer="BarberShopEntities1">
+          <EntitySetMapping Name="Barber">
+            <EntityTypeMapping TypeName="BarberShopModel.Barber">
+              <MappingFragment StoreEntitySet="Barber">
+                <ScalarProperty Name="IDBarber" ColumnName="IDBarber" />
+                <ScalarProperty Name="NameBarber" ColumnName="NameBarber" />
+                <ScalarProperty Name="DoljnostBarbera" ColumnName="DoljnostBarbera" />
+                <ScalarProperty Name="AdressBarbershopa" ColumnName="AdressBarbershopa" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Klient">
+            <EntityTypeMapping TypeName="BarberShopModel.Klient">
+              <MappingFragment StoreEntitySet="Klient">
+                <ScalarProperty Name="IDKlient" ColumnName="IDKlient" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Familia" ColumnName="Familia" />
+                <ScalarProperty Name="Login" ColumnName="Login" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Market">
+            <EntityTypeMapping TypeName="BarberShopModel.Market">
+              <MappingFragment StoreEntitySet="Market">
+                <ScalarProperty Name="IDMarket" ColumnName="IDMarket" />
+                <ScalarProperty Name="NazvanieTovara" ColumnName="NazvanieTovara" />
+                <ScalarProperty Name="OpisanieTovara" ColumnName="OpisanieTovara" />
+                <ScalarProperty Name="StoimostTovara" ColumnName="StoimostTovara" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ServisePage">
+            <EntityTypeMapping TypeName="BarberShopModel.ServisePage">
+              <MappingFragment StoreEntitySet="ServisePage">
+                <ScalarProperty Name="IDServise" ColumnName="IDServise" />
+                <ScalarProperty Name="NazvanieYslygi" ColumnName="NazvanieYslygi" />
+                <ScalarProperty Name="StoimostYslygi" ColumnName="StoimostYslygi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Zapisi">
+            <EntityTypeMapping TypeName="BarberShopModel.Zapisi">
+              <MappingFragment StoreEntitySet="Zapisi">
+                <ScalarProperty Name="IDZapisi" ColumnName="IDZapisi" />
+                <ScalarProperty Name="NazvanieYslygi" ColumnName="NazvanieYslygi" />
+                <ScalarProperty Name="StoimostYslygi" ColumnName="StoimostYslygi" />
+                <ScalarProperty Name="DataZapisi" ColumnName="DataZapisi" />
+                <ScalarProperty Name="IDMarket" ColumnName="IDMarket" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
